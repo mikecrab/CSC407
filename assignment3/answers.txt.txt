@@ -1,0 +1,5 @@
+Before thread safe - 
+	Program would keep printing the same things, mostly that there's no flowers.  Had some seg faults while running, if I reduced the number of needed flowers it seemed to reduce the chance of seg fault.
+
+Thread safe program -
+	After making the program thread safe, the program ran with no problems. The hives would say "no flowers" only once until they got a flower. 

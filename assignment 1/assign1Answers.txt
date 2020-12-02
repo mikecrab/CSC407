@@ -1,0 +1,81 @@
+1. copy/paste
+
+2. ./assign1
+
+3. TIMING - No extra optimizations
+	Merge Sort - 70.31 milliseconds
+	Insertion Sort - 89.84 seconds
+
+4. TIMING - With optimizations
+	Merge Sort - 40.24 milliseconds
+	Insertion Sort - 66.51 seconds
+
+5. A good algorithm  with data-structure optimization -O0 is better than a bad algorithm with data-structure optimization of -O2
+
+6. 
+	a. Global integer numNumbers in main.c
+		Command = objdump -s -j .data assign1-0	
+
+		Output = 
+		Contents of section .data:
+ 		602078 00000000 00000200                    ........
+
+
+
+	b. String constant in main
+		Command = objdump -s -j .rodata assign1-0
+
+		Output =
+		Contents of section .rodata:
+		400e18 01000200 00000000 00000000 00000000  ................
+		400e28 00000400 25642000 486f7720 646f2079  ....%d .How do y
+		400e38 6f752077 616e7420 746f2073 6f727420  ou want to sort
+		400e48 2564206e 756d6265 72733f0a 28312920  %d numbers?.(1)
+		400e58 496e7365 7274696f 6e20736f 72740a28  Insertion sort.(
+		400e68 3229204d 65726765 20736f72 740a596f  2) Merge sort.Yo
+		400e78 75722063 686f6963 65202831 206f7220  ur choice (1 or
+		400e88 32293f20 00                          2)? .
+
+
+	c. Code for printList()? I assume the question means code for print()
+		Command = objdump -d -j .text assign1-0
+		
+		Output =
+		00000000004008f2 <print>:
+  		4008f2:       55                      push   %rbp
+ 		4008f3:       48 89 e5                mov    %rsp,%rbp
+		4008f6:       48 83 ec 10             sub    $0x10,%rsp
+		4008fa:       e8 d1 fd ff ff          callq  4006d0 <mcount@plt>
+		4008ff:       48 89 7d f8             mov    %rdi,-0x8(%rbp)
+		400903:       eb 23                   jmp    400928 <print+0x36>
+		400905:       48 8b 45 f8             mov    -0x8(%rbp),%rax
+		400909:       8b 00                   mov    (%rax),%eax
+		40090b:       89 c6                   mov    %eax,%esi
+		40090d:       bf 2c 0e 40 00          mov    $0x400e2c,%edi
+		400912:       b8 00 00 00 00          mov    $0x0,%eax
+		400917:       e8 44 fd ff ff          callq  400660 <printf@plt>
+		40091c:       48 8b 45 f8             mov    -0x8(%rbp),%rax
+		400920:       48 8b 40 08             mov    0x8(%rax),%rax
+		400924:       48 89 45 f8             mov    %rax,-0x8(%rbp)
+		400928:       48 8b 45 f8             mov    -0x8(%rbp),%rax
+		40092c:       48 8b 40 08             mov    0x8(%rax),%rax
+		400930:       48 85 c0                test   %rax,%rax
+		400933:       75 d0                   jne    400905 <print+0x13>
+		400935:       bf 0a 00 00 00          mov    $0xa,%edi
+		40093a:       e8 11 fd ff ff          callq  400650 <putchar@plt>
+  		40093f:       c9                      leaveq
+  		400940:       c3                      retq
+
+
+	d. Int variable choice in main()
+		The var choice doesn't exist yet so it can't be found with objdump.  
+		It's a local variable so it is only needed while the program runs.
+
+7. Find two optimizations between assign1-0 and assign1-2
+	1. I notice that assign1-0 uses the stack for storing vars a lot more than assign1-2.
+		Assign1-2 uses registers which is faster than the stack.
+
+	2.  Another optimization I noticed was in the print() function.  At one point the code sets the register %eax to 0.
+	In 0 optimization it does that with a mov $0x0 %eax.  And in O2 it does it with XOR %eax, %eax.  Bitwise operations
+	are the fastest operations so thats another way O2 optimizes from O0.
+	

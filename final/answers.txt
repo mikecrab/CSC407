@@ -1,0 +1,18 @@
+1. 
+Using snprintf instead of sprintf or strncpy instead of strcpy is much more secure.  snprintf and strncpy require max buffer size of the buffer.  
+This makes it so people with malicious intent can't overflow the buffer to change memory that could potentially let the hacker to inject and run their own code.
+
+
+2.
+Extern lets the compiler know that the variable is an external variable found in another file/header.  If extern wasn't specified and the variable wasn't in the file, the compiler would error.
+
+3.
+I noticed in the object files that not all, but a lot of variables are kept in registers.  This makes it much faster to access those variables compared to variables that a kept on the stack.
+
+4.
+turn is found using is .bss because it is a global variable initialized at 0.
+
+objdump -d -j .bss decoderServer2.o
+
+00000000000000a0 <_ZL4turn>:
+  a0:   00 00 00 00 
